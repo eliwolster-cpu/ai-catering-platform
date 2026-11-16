@@ -28,3 +28,5 @@ Thumbs.db
 
 # Generated synthetic lead data
 backend/ml/data/
+backend/ml/models/
+backend/ml/reports/
