@@ -8,14 +8,22 @@ from pydantic import BaseModel
 
 from app.core.config import get_settings
 from app.repositories.lead_repository import InMemoryLeadRepository
+from app.repositories.supabase_lead_repository import SupabaseLeadRepository
 from app.schemas.lead import Lead, LeadCreate, LeadStatus, LeadUpdate
 from app.services import lead_service
+from app.services.lead_service import LeadRepository
 
 router = APIRouter(prefix="/api")
 
 
 @lru_cache
-def get_lead_repository() -> InMemoryLeadRepository:
+def get_lead_repository() -> LeadRepository:
+    settings = get_settings()
+    if settings.supabase_url and settings.supabase_service_role_key:
+        return SupabaseLeadRepository(settings.supabase_url, settings.supabase_service_role_key)
+    if settings.app_env == "production":
+        # Never fall back to memory in production: leads would silently disappear on restart.
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="storage not configured")
     return InMemoryLeadRepository()
 
 
@@ -30,7 +38,7 @@ def require_admin(x_admin_key: Annotated[str | None, Header()] = None) -> None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="unauthorized")
 
 
-Repo = Annotated[InMemoryLeadRepository, Depends(get_lead_repository)]
+Repo = Annotated[LeadRepository, Depends(get_lead_repository)]
 
 
 class LeadCreated(BaseModel):
