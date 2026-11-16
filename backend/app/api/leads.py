@@ -1,6 +1,6 @@
 import secrets
 from functools import lru_cache
-from typing import Annotated
+from typing import Annotated, Literal
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header, HTTPException, status
@@ -47,8 +47,12 @@ admin = APIRouter(prefix="/admin/leads", dependencies=[Depends(require_admin)])
 
 
 @admin.get("")
-def list_leads(repo: Repo, lead_status: LeadStatus | None = None) -> list[Lead]:
-    return lead_service.list_leads(repo, lead_status)
+def list_leads(
+    repo: Repo,
+    lead_status: LeadStatus | None = None,
+    sort: Literal["created", "score"] = "created",
+) -> list[Lead]:
+    return lead_service.list_leads(repo, lead_status, sort)
 
 
 @admin.get("/{lead_id}")

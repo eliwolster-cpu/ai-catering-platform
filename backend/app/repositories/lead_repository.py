@@ -22,8 +22,14 @@ class InMemoryLeadRepository:
     def get(self, lead_id: UUID) -> Lead | None:
         return self._leads.get(lead_id)
 
-    def list(self, status: LeadStatus | None = None) -> list[Lead]:
+    def list(self, status: LeadStatus | None = None, sort: str = "created") -> list[Lead]:
         leads = [lead for lead in self._leads.values() if status in (None, lead.status)]
+        if sort == "score":  # highest score first, unscored last
+            return sorted(
+                leads,
+                key=lambda lead: (lead.conversion_score is not None, lead.conversion_score or 0),
+                reverse=True,
+            )
         return sorted(leads, key=lambda lead: lead.created_at, reverse=True)
 
     def update(self, lead_id: UUID, changes: LeadUpdate) -> Lead | None:
@@ -31,8 +37,10 @@ class InMemoryLeadRepository:
             lead = self._leads.get(lead_id)
             if lead is None:
                 return None
-            updated = lead.model_copy(
-                update={**changes.model_dump(exclude_unset=True), "updated_at": datetime.now(UTC)}
-            )
+            now = datetime.now(UTC)
+            fields = changes.model_dump(exclude_unset=True)
+            if fields.get("conversion_score") is not None:
+                fields["scored_at"] = now
+            updated = lead.model_copy(update={**fields, "updated_at": now})
             self._leads[lead_id] = updated
             return updated

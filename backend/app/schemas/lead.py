@@ -52,6 +52,8 @@ class LeadUpdate(BaseModel):
     status: LeadStatus | None = None
     first_response_minutes: int | None = Field(default=None, ge=0)
     interaction_count: int | None = Field(default=None, ge=0)
+    # Written by the offline scoring job (ml/score.py); advisory only.
+    conversion_score: float | None = Field(default=None, ge=0, le=1)
 
 
 class Lead(LeadCreate):
@@ -59,5 +61,7 @@ class Lead(LeadCreate):
     status: LeadStatus = LeadStatus.NEW
     first_response_minutes: int | None = None
     interaction_count: int = 0
+    conversion_score: float | None = Field(default=None, ge=0, le=1)
+    scored_at: datetime | None = None
     created_at: datetime
     updated_at: datetime
