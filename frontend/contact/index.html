@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff9ed">
+  <title>השארת פרטים | yumm.ai</title>
+  <meta name="description" content="משאירים פרטים ואנחנו חוזרים אליכם לדבר על האירוע.">
+  <link rel="preload" href="/assets/fonts/playpen-sans-hebrew-hebrew-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/contact.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">דילוג לתוכן</a>
+
+  <header class="top">
+    <div class="top-inner">
+      <p class="wordmark brand"><a class="brand-link" href="/" aria-label="yumm.ai, לעמוד הבית"><bdi>yumm<span class="dot">.</span>ai</bdi></a></p>
+      <a class="btn btn-primary" href="/customer/">תכננו את האירוע</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="contact" aria-labelledby="contact-title">
+      <h1 id="contact-title" tabindex="-1">השארת פרטים</h1>
+      <p class="lead">מספרים לנו בקצרה על האירוע ונחזור אליכם. זו פנייה ראשונית, לא הזמנה ולא הצעת מחיר.</p>
+
+      <form id="lead-form" novalidate>
+        <p class="hint">שדות המסומנים ב״חובה״ נדרשים.</p>
+
+        <div class="field" data-field="name">
+          <label for="name">שם מלא (חובה)</label>
+          <input class="input" id="name" name="name" type="text" autocomplete="name" maxlength="120" required aria-required="true">
+          <p class="error" id="name-error" hidden></p>
+        </div>
+
+        <div class="field" data-field="phone">
+          <label for="phone">טלפון (חובה)</label>
+          <input class="input" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required aria-required="true">
+          <p class="error" id="phone-error" hidden></p>
+        </div>
+
+        <div class="field" data-field="email">
+          <label for="email">אימייל</label>
+          <input class="input" id="email" name="email" type="email" autocomplete="email" dir="ltr">
+          <p class="error" id="email-error" hidden></p>
+        </div>
+
+        <div class="field" data-field="event_type">
+          <label for="event_type">סוג האירוע (חובה)</label>
+          <select class="input" id="event_type" name="event_type" required aria-required="true">
+            <option value="">בחירה</option>
+            <option value="wedding">חתונה</option>
+            <option value="corporate">אירוע עסקי</option>
+            <option value="birthday">יום הולדת</option>
+            <option value="bar_mitzvah">בר או בת מצווה</option>
+            <option value="private">אירוע פרטי</option>
+            <option value="other">אחר</option>
+          </select>
+          <p class="error" id="event_type-error" hidden></p>
+        </div>
+
+        <div class="row">
+          <div class="field" data-field="event_date">
+            <label for="event_date">תאריך האירוע</label>
+            <input class="input" id="event_date" name="event_date" type="date">
+            <p class="error" id="event_date-error" hidden></p>
+          </div>
+          <div class="field" data-field="guest_count">
+            <label for="guest_count">מספר אורחים</label>
+            <input class="input" id="guest_count" name="guest_count" type="number" inputmode="numeric" min="1" max="5000">
+            <p class="error" id="guest_count-error" hidden></p>
+          </div>
+        </div>
+
+        <!-- Honeypot: hidden from people and assistive tech, bots tend to fill it. -->
+        <div class="trap" aria-hidden="true">
+          <label for="company">אל תמלאו שדה זה</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p class="error form-error" id="form-error" role="alert" hidden></p>
+        <button class="btn btn-primary btn-lg" type="submit" id="submit">שליחת פרטים</button>
+        <p class="hint">הפרטים ישמשו ליצירת קשר בנוגע לאירוע בלבד.</p>
+      </form>
+
+      <div id="thanks" class="thanks" hidden>
+        <h2 id="thanks-title" tabindex="-1">תודה, קיבלנו את הפרטים</h2>
+        <p>נחזור אליכם בהקדם לשיחה על האירוע. עד אז אפשר גם לבנות תפריט ולקבל מחיר מיידי.</p>
+        <a class="btn btn-secondary" href="/customer/">תכננו את האירוע</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="wordmark"><bdi>yumm<span class="dot">.</span>ai</bdi></p>
+    <nav class="foot-links" aria-label="קישורים בתחתית הדף">
+      <a class="small" href="/accessibility/">הצהרת נגישות</a>
+    </nav>
+  </footer>
+
+  <script type="module" src="/js/contact.js"></script>
+</body>
+</html>
