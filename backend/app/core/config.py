@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     supabase_url: str | None = None
     supabase_anon_key: str | None = None
     supabase_service_role_key: str | None = None
+    # Owner key for /api/admin/*. Admin routes reject everything while unset.
+    admin_api_key: str | None = None
 
 
 @lru_cache
