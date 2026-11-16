@@ -3,19 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ממשק העסק</title>
+  <title>ניהול לידים · ממשק העסק</title>
   <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-  <main>
-    <h1>ממשק העסק</h1>
-    <p>בבנייה. ראו docs/UX_UI_SPEC.md.</p>
-    <p>מצב השרת: <span id="status" aria-live="polite">בודק…</span></p>
+  <main class="admin">
+    <h1>ניהול לידים</h1>
+    <p class="note">הלידים מדורגים לפי הסיכוי שיבצעו הזמנה. הציון הוא כלי עזר בלבד ואינו משפיע על מחירים או הצעות.</p>
+
+    <form id="key-form" class="toolbar">
+      <label for="admin-key">מפתח גישה
+        <input id="admin-key" type="password" autocomplete="off" dir="ltr">
+      </label>
+      <button type="submit">טעינת לידים</button>
+    </form>
+
+    <div class="toolbar">
+      <label for="status-filter">סינון לפי סטטוס
+        <select id="status-filter">
+          <option value="">הכול</option>
+          <option value="new">חדש</option>
+          <option value="contacted">נוצר קשר</option>
+          <option value="quote_sent">נשלחה הצעה</option>
+          <option value="won">נסגר</option>
+          <option value="lost">אבד</option>
+        </select>
+      </label>
+      <label for="sort">מיון
+        <select id="sort">
+          <option value="score">סיכוי להזמנה (גבוה ראשון)</option>
+          <option value="created">הכי חדשים</option>
+        </select>
+      </label>
+    </div>
+
+    <p id="message" role="status" aria-live="polite"></p>
+    <div id="board" class="table-wrap"></div>
   </main>
-  <script type="module">
-    import { api } from "/js/api.js";
-    const el = document.getElementById("status");
-    api("/health").then((r) => (el.textContent = r.status)).catch((e) => (el.textContent = e.message));
-  </script>
+  <script type="module" src="/js/admin/leads.js"></script>
 </body>
 </html>
